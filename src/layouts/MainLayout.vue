@@ -2,40 +2,27 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title>Quasar App</q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+
+        <q-btn color="dark" to="/">Inicio</q-btn>
+        <!-- <q-btn color="green" @click="userStore.access" v-if="!userStore.token">Login</q-btn> -->
+        <q-btn color="green" @click="accessUser" v-if="!userStore.token">Login</q-btn>
+        <!-- <q-btn color="red" @click="userStore.logout" v-if="userStore.token">Logout</q-btn> -->
+        <q-btn color="red" @click="logout" v-if="userStore.token">Logout</q-btn>
+        <q-btn color="orange" to="/protected" v-if="userStore.token">Protected</q-btn>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Essential Links
         </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -45,11 +32,30 @@
   </q-layout>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import { useUserStore } from '../stores/user-store'
+import { useRouter } from 'vue-router'
 
-const linksList = [
+const leftDrawerOpen = ref(false)
+const userStore = useUserStore()
+const router = useRouter()
+
+const logout = async () => {
+  await userStore.logout()
+  router.push("/login")
+}
+
+const accessUser = async () => {
+  await userStore.access()
+  router.push("/")
+}
+
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+const essentialLinks = [
   {
     title: 'Docs',
     caption: 'quasar.dev',
@@ -93,24 +99,4 @@ const linksList = [
     link: 'https://awesome.quasar.dev'
   }
 ]
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
 </script>
