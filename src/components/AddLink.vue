@@ -13,7 +13,7 @@ const addLink = async () => {
   try {
     loading.value = true
     await useLink.createLink(link.value)
-    showNotify('positive', 'Link creado')
+    showNotify('Link creado', 'positive')
     link.value = ''
 
   } catch (error) {

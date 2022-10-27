@@ -1,12 +1,12 @@
 <template>
   <q-page padding>
     <!-- <p>Token: {{ userStore.token }} expires in {{ userStore.expiresIn/60 }} minutes</p> -->
-    <add-link />
-    <pre>
+    <add-link class="q-mb-xl" />
+    <!-- <pre>
       {{ useLink.links }}
-    </pre>
+    </pre> -->
     <template v-for="link in useLink.links" :key="link._id">
-      <LinkCard />
+      <LinkCard :link="link" />
     </template>
   </q-page>
 </template>
