@@ -1,6 +1,15 @@
-# Quasar App (mevn-frontend)
+# Quasar App (Frontend generador de links MEVN)
 
-A Quasar Project
+- Vue 3 + Vite + Pinia (vuex 5) + Router 4 + Quasar
+- Persistencia de usuario con JWT
+- Rutas protegidas ( token )
+- Gereración y autorefresh token
+- Alertas usuario y contraseña
+- Registro de nuevo usuario
+- CRUD
+- Formulario
+- Quasar plugins y componentes
+- API clipboard y redirección
 
 ## Install the dependencies
 ```bash
